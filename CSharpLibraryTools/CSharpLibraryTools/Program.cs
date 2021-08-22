@@ -2,6 +2,8 @@
 using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
 using CoreActivities.DirectoryManager;
+using CoreActivities.EgmaCV;
+using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
@@ -18,13 +20,14 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new ActiveProgramPackage());
             builder.RegisterModule(new BrowserActivityPackage());
             builder.RegisterModule(new DirectoryManagerPackage());
+            builder.RegisterModule(new EgmaCvPackage());
 
             return builder.Build();
         }
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            CompositionRoot().Resolve<Application>().Run();
+            await CompositionRoot().Resolve<Application>().Run();
         }
     }
 }

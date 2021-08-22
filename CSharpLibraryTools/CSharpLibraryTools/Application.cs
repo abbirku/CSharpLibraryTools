@@ -1,7 +1,9 @@
 ﻿using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
 using CoreActivities.DirectoryManager;
+using CoreActivities.EgmaCV;
 using System;
+using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
@@ -10,17 +12,20 @@ namespace CSharpLibraryTools
         private readonly IActiveProgram _activeProgram;
         private readonly IBrowserActivity _browserActivity;
         private readonly IDirectoryManager _directoryManager;
+        private readonly IEgmaCv _egmaCv;
 
         public Application(IActiveProgram activeProgram,
             IBrowserActivity browserActivity,
-            IDirectoryManager directoryManager)
+            IDirectoryManager directoryManager,
+            IEgmaCv egmaCv)
         {
             _activeProgram = activeProgram;
             _browserActivity = browserActivity;
             _directoryManager = directoryManager;
+            _egmaCv = egmaCv;
         }
 
-        public void Run()
+        public async Task Run()
         {
             var title = _activeProgram.CaptureActiveProgramTitle();
             Console.WriteLine($"Present active program title is {title}");
@@ -39,6 +44,10 @@ namespace CSharpLibraryTools
             Console.WriteLine(_directoryManager.GetProgramDataDirectoryPath("WebCam"));
             _directoryManager.ChecknCreateDirectory("WebCam");
             Console.WriteLine(_directoryManager.CreateProgramDataFilePath("WebCam", "file.txt"));
+            
+            Console.WriteLine("-------------------------------------------");
+            var rand = new Random();
+            await _egmaCv.CaptureImageAsync(0, _directoryManager.CreateProgramDataFilePath("WebCam", $"{rand.Next(10, 9999)}.jpg"));
         }
     }
 }
