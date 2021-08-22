@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using CoreActivities.ActiveProgram;
+using CoreActivities.BrowserActivity;
 using System;
 
 namespace CSharpLibraryTools
@@ -15,6 +16,7 @@ namespace CSharpLibraryTools
 
             builder.RegisterType<Application>();
             builder.RegisterModule(new ActiveProgramPackage());
+            builder.RegisterModule(new BrowserActivityPackage());
 
             return builder.Build();
         }
