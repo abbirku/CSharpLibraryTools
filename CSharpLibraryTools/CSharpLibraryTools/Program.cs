@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
-using System;
+using CoreActivities.DirectoryManager;
 
 namespace CSharpLibraryTools
 {
@@ -17,6 +17,7 @@ namespace CSharpLibraryTools
             builder.RegisterType<Application>();
             builder.RegisterModule(new ActiveProgramPackage());
             builder.RegisterModule(new BrowserActivityPackage());
+            builder.RegisterModule(new DirectoryManagerPackage());
 
             return builder.Build();
         }
