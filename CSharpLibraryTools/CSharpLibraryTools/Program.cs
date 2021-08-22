@@ -6,6 +6,7 @@ using CoreActivities.EgmaCV;
 using CoreActivities.FileManager;
 using CoreActivities.GoogleDriveApi;
 using CoreActivities.RunningPrograms;
+using CoreActivities.ScreenCapture;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
@@ -26,6 +27,8 @@ namespace CSharpLibraryTools
             builder.RegisterType<GoogleDriveApiManagerAdapter>().As<IIGoogleDriveApiManager>()
                    .InstancePerLifetimeScope();
             builder.RegisterType<RunningProgramAdapter>().As<IRunningPrograms>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<ScreenCaptureAdapter>().As<IScreenCapture>()
                    .InstancePerLifetimeScope();
 
             return builder.Build();
