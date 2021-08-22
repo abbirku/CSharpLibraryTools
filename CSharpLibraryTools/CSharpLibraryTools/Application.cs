@@ -1,5 +1,6 @@
 ﻿using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
+using CoreActivities.DirectoryManager;
 using System;
 
 namespace CSharpLibraryTools
@@ -8,12 +9,15 @@ namespace CSharpLibraryTools
     {
         private readonly IActiveProgram _activeProgram;
         private readonly IBrowserActivity _browserActivity;
+        private readonly IDirectoryManager _directoryManager;
 
         public Application(IActiveProgram activeProgram,
-            IBrowserActivity browserActivity)
+            IBrowserActivity browserActivity,
+            IDirectoryManager directoryManager)
         {
             _activeProgram = activeProgram;
             _browserActivity = browserActivity;
+            _directoryManager = directoryManager;
         }
 
         public void Run()
@@ -31,6 +35,10 @@ namespace CSharpLibraryTools
             Console.WriteLine($"Active URL: {activeUrl}");
 
             Console.WriteLine("-------------------------------------------");
+
+            Console.WriteLine(_directoryManager.GetProgramDataDirectoryPath("WebCam"));
+            _directoryManager.ChecknCreateDirectory("WebCam");
+            Console.WriteLine(_directoryManager.CreateProgramDataFilePath("WebCam", "file.txt"));
         }
     }
 }
