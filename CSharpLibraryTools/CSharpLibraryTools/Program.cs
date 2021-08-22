@@ -3,6 +3,7 @@ using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
 using CoreActivities.DirectoryManager;
 using CoreActivities.EgmaCV;
+using CoreActivities.FileManager;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
@@ -21,6 +22,7 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new BrowserActivityPackage());
             builder.RegisterModule(new DirectoryManagerPackage());
             builder.RegisterModule(new EgmaCvPackage());
+            builder.RegisterModule(new FileManagerPackage());
 
             return builder.Build();
         }
