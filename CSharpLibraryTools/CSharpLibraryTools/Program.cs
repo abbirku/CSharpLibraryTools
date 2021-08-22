@@ -3,15 +3,16 @@ using CoreActivities.ActiveProgram;
 using CoreActivities.BrowserActivity;
 using CoreActivities.DirectoryManager;
 using CoreActivities.EgmaCV;
+using CoreActivities.FileManager;
+using CoreActivities.GoogleDriveApi;
+using CoreActivities.RunningPrograms;
+using CoreActivities.ScreenCapture;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
     class Program
     {
-        /// <summary>
-        /// Need to only inject the packages inside CompositionRoot
-        /// </summary>
         private static IContainer CompositionRoot()
         {
             var builder = new ContainerBuilder();
@@ -21,6 +22,14 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new BrowserActivityPackage());
             builder.RegisterModule(new DirectoryManagerPackage());
             builder.RegisterModule(new EgmaCvPackage());
+            builder.RegisterModule(new FileManagerPackage());
+
+            builder.RegisterType<GoogleDriveApiManagerAdapter>().As<IIGoogleDriveApiManager>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<RunningProgramAdapter>().As<IRunningPrograms>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<ScreenCaptureAdapter>().As<IScreenCapture>()
+                   .InstancePerLifetimeScope();
 
             return builder.Build();
         }

@@ -14,6 +14,9 @@
 		<PackageReference Include="Autofac" Version="6.2.0" />
 		<PackageReference Include="Emgu.CV" Version="4.5.3.4721" />
 		<PackageReference Include="Emgu.CV.runtime.windows" Version="4.5.3.4721" />
+		<PackageReference Include="Google.Apis.Drive.v3" Version="1.54.0.2397" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
 	</ItemGroup>
 
 </Project>
