@@ -5,6 +5,7 @@ using CoreActivities.DirectoryManager;
 using CoreActivities.EgmaCV;
 using CoreActivities.FileManager;
 using CoreActivities.GoogleDriveApi;
+using CoreActivities.RunningPrograms;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
@@ -23,6 +24,8 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new FileManagerPackage());
 
             builder.RegisterType<GoogleDriveApiManagerAdapter>().As<IIGoogleDriveApiManager>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<RunningProgramAdapter>().As<IRunningPrograms>()
                    .InstancePerLifetimeScope();
 
             return builder.Build();
