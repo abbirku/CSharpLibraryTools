@@ -23,9 +23,8 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new DirectoryManagerPackage());
             builder.RegisterModule(new EgmaCvPackage());
             builder.RegisterModule(new FileManagerPackage());
+            builder.RegisterModule(new GoogleDriveApiPackage());
 
-            builder.RegisterType<GoogleDriveApiManagerAdapter>().As<IIGoogleDriveApiManager>()
-                   .InstancePerLifetimeScope();
             builder.RegisterType<RunningProgramAdapter>().As<IRunningPrograms>()
                    .InstancePerLifetimeScope();
             builder.RegisterType<ScreenCaptureAdapter>().As<IScreenCapture>()
