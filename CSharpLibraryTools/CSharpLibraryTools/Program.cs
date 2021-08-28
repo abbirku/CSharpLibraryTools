@@ -25,9 +25,7 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new FileManagerPackage());
             builder.RegisterModule(new GoogleDriveApiPackage());
             builder.RegisterModule(new RunningProgramPackage());
-
-            builder.RegisterType<ScreenCaptureAdapter>().As<IScreenCapture>()
-                   .InstancePerLifetimeScope();
+            builder.RegisterModule(new ScreenCapturePackage());
 
             return builder.Build();
         }
