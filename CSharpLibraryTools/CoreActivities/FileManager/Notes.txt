@@ -1,0 +1,6 @@
+﻿Notes:
+======
+1. IFile and IFileManager both have CreateFile() method. But it is better to use IFileManager->CreateFile() as it has more control
+   for creating a file.
+2. IFileStream and IFileManager both have ReadFileAsByte() method. But it is better to use IFileManager->ReadFileAsByte() as it has more control
+   for reading bytes from a file.
