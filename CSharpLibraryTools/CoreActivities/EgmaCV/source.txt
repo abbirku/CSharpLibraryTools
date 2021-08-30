@@ -1,0 +1,4 @@
+﻿Source
+======
+https://blog.dotnetframework.org/2020/12/29/capture-a-webcam-image-using-net-core-and-opencv/
+https://blog.dotnetframework.org/2020/12/30/record-mp4-h264-video-from-a-webcam-in-c-net-core/
