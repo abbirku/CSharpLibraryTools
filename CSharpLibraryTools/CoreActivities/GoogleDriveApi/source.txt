@@ -1,0 +1,14 @@
+﻿jskeet commented on Mar 7, 2020 
+-------------------------------
+https://github.com/googleapis/google-api-dotnet-client/issues/1525
+
+Others:
+=======
+GitHub
+------
+https://github.com/LindaLawton/Google-Dotnet-Samples/blob/master/Samples/Drive%20API/v3/FilesSample.cs
+https://gist.github.com/LindaLawton/9e512d95ef874d0c4dbc8d0783dcc4bc
+
+Google Drive API with C# .net
+-----------------------------
+https://www.daimto.com/google-drive-api-c-download/
