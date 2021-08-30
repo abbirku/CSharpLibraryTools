@@ -2,6 +2,11 @@
 
 namespace CoreActivities.ActiveProgram
 {
+    public interface IActiveProgram
+    {
+        string CaptureActiveProgramTitle();
+    }
+
     public class ActiveProgramAdapter : IActiveProgram
     {
         private readonly ActiveProgramAdaptee _activeProgramAdaptee;

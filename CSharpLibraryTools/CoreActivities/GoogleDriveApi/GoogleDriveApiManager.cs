@@ -1,5 +1,7 @@
-﻿using CoreActivities.FileManager;
+﻿using CoreActivities.GoogleDriveApi.Models;
+using CoreActivities.GoogleDriveApi.Parms;
 using Google.Apis.Auth.OAuth2;
+using Google.Apis.Download;
 using Google.Apis.Drive.v3;
 using Google.Apis.Drive.v3.Data;
 using Google.Apis.Services;
@@ -13,56 +15,122 @@ namespace CoreActivities.GoogleDriveApi
 {
     public interface IIGoogleDriveApiManager
     {
-        Task<string> UploadFileAsync(string filePath, Action<IUploadProgress> uploadProgress = null);
+        Task<GoogleDriveFiles> GetFilesAndFolders(string nextPageToken = null, FilesListOptionalParms optional = null);
+        Task<string> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null);
+        Task DeleteAsync(string fileId, FilesDeleteOptionalParms optional = null);
+        Task DownloadAsync(File file, string filePath, Action<IDownloadProgress> downloadProgress = null);
     }
 
     public class GoogleDriveApiManagerAdapter : IIGoogleDriveApiManager
     {
         private readonly string _authfilePath;
         private readonly string _directoryId;
-        private readonly IFile _file;
-        private readonly IFileInfo _fileInfo;
-        private long _fileSize;
+        private readonly DriveService _driveService;
+        private long _fileSize = 0;
+        private long _uploaded = 0;
+        private long _downloaded = 0;
 
         public GoogleDriveApiManagerAdapter(string authfilePath,
-            string directoryId,
-            IFile file,
-            IFileInfo fileInfo)
+            string directoryId)
         {
             _authfilePath = authfilePath;
             _directoryId = directoryId;
-            _file = file;
-            _fileInfo = fileInfo;
-            _fileSize = 0;
-        }
-
-        public async Task<string> UploadFileAsync(string filePath, Action<IUploadProgress> uploadProgress = null)
-        {
-            //Gathering file size at the very begining
-            _fileSize = _fileInfo.FileSize(filePath);
 
             var credential = GoogleCredential.FromFile(_authfilePath)
                                     .CreateScoped(DriveService.ScopeConstants.Drive);
 
-            var service = new DriveService(new BaseClientService.Initializer()
+            _driveService = new DriveService(new BaseClientService.Initializer()
             {
                 HttpClientInitializer = credential
             });
+        }
 
-            if (!string.IsNullOrWhiteSpace(filePath) && _file.DoesExists(filePath))
+        public async Task<GoogleDriveFiles> GetFilesAndFolders(string nextPageToken = null, FilesListOptionalParms optional = null)
+        {
+
+            return await Task.Run(() =>
             {
+                try
+                {
+                    var files = new List<File>();
+
+                    // Initial validation.
+                    if (_driveService == null)
+                        throw new ArgumentNullException("service");
+
+                    //Providing default query parameter 'Q' to retrive only specific folder or files
+                    var defaultQueryPatter = $"'{_directoryId}' in parents";
+
+                    if (!string.IsNullOrWhiteSpace(_directoryId))
+                    {
+                        if (optional == null)
+                            optional = new FilesListOptionalParms
+                            {
+                                Q = defaultQueryPatter
+                            };
+                        else if (optional != null && string.IsNullOrWhiteSpace(optional.Q))
+                            optional.Q = defaultQueryPatter;
+                    }
+
+                    // Building the initial request.
+                    var request = _driveService.Files.List();
+
+                    // Applying optional parameters to the request.                
+                    request = (FilesResource.ListRequest)ApplyOptionalParams(request, optional);
+
+                    // Requesting data.
+                    if (!string.IsNullOrWhiteSpace(nextPageToken))
+                        request.PageToken = nextPageToken;
+
+                    var fileFeed = request.Execute();
+
+                    foreach (var item in fileFeed.Files)
+                        files.Add(item);
+
+                    var data = new GoogleDriveFiles
+                    {
+                        NextPageToken = fileFeed.NextPageToken,
+                        Files = files
+                    };
+
+                    return data;
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException(ex.Message);
+                }
+            });
+
+        }
+
+        public async Task<string> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null)
+        {
+            //Initialization
+            _uploaded = 0;
+
+            // Initial validation.
+            if (_driveService == null)
+                throw new ArgumentNullException("service");
+
+            if (uploadFileInfo != null && !string.IsNullOrWhiteSpace(uploadFileInfo.FilePath) &&
+                !string.IsNullOrWhiteSpace(uploadFileInfo.FileName) && 
+                !string.IsNullOrWhiteSpace(uploadFileInfo.MimeType) &&
+                uploadFileInfo.FileSize != 0)
+            {
+                _fileSize = uploadFileInfo.FileSize;
+
                 // Upload file Metadata
                 var fileMetadata = new File()
                 {
-                    Name = _file.FileName(filePath),
+                    Name = uploadFileInfo.FileName,
                     Parents = new List<string>() { _directoryId }
                 };
 
                 // Create a new file on Google Drive
-                await using var fsSource = new System.IO.FileStream(filePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
+                await using var fsSource = new System.IO.FileStream(uploadFileInfo.FilePath, System.IO.FileMode.Open, System.IO.FileAccess.Read);
 
                 // Create a new file, with metadata and stream.
-                var request = service.Files.Create(fileMetadata, fsSource, _file.GetMimeType(filePath));
+                var request = _driveService.Files.Create(fileMetadata, fsSource, uploadFileInfo.MimeType);
                 request.Fields = "*";
                 request.ChunkSize = 262144;
                 if (uploadProgress != null)
@@ -78,12 +146,97 @@ namespace CoreActivities.GoogleDriveApi
                 return request.ResponseBody?.Id;
             }
             else
-                throw new Exception("Provide valid file path");
+                throw new Exception("Provide valid upload file information");
+        }
+
+        public async Task DeleteAsync(string fileId, FilesDeleteOptionalParms optional = null)
+        {
+            await Task.Run(() =>
+            {
+                try
+                {
+                    // Initial validation.
+                    if (_driveService == null)
+                        throw new ArgumentNullException("service");
+
+                    if (string.IsNullOrWhiteSpace(fileId))
+                        throw new ArgumentNullException("fileId");
+
+                    // Building the initial request.
+                    var request = _driveService.Files.Delete(fileId);
+
+                    // Applying optional parameters to the request.                
+                    request = (FilesResource.DeleteRequest)ApplyOptionalParams(request, optional);
+
+                    // Requesting data.
+                    request.Execute();
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Request Files.Delete failed.", ex);
+                }
+            });
+        }
+
+        public async Task DownloadAsync(File file, string filePath, Action<IDownloadProgress> downloadProgress = null)
+        {
+            if (file == null || string.IsNullOrWhiteSpace(filePath))
+                throw new Exception("Provide valid file object and file path");
+
+            try
+            {
+                var request = _driveService.Files.Get(file.Id);
+                if (downloadProgress != null)
+                    request.MediaDownloader.ProgressChanged += downloadProgress;
+                else
+                    request.MediaDownloader.ProgressChanged += DownloadProgress;
+
+                using var output = System.IO.File.Create(filePath);
+                await request.DownloadAsync(output);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("An error occurred: " + e.Message);
+            }
+        }
+
+        #region Private section
+        public void ClearCurrentConsoleLine()
+        {
+            if (Console.CursorTop > 0)
+                Console.SetCursorPosition(0, Console.CursorTop - 1);
+
+            int currentLineCursor = Console.CursorTop;
+            Console.SetCursorPosition(0, Console.CursorTop);
+            Console.Write(new string(' ', Console.WindowWidth));
+            Console.SetCursorPosition(0, currentLineCursor);
         }
 
         private void UploadProgress(IUploadProgress progress)
         {
-            DrawTextProgressBar(progress.BytesSent, _fileSize);
+            PrintUploadProgressByPercentage(progress.BytesSent, _fileSize);
+        }
+
+        private void DownloadProgress(IDownloadProgress progress)
+        {
+            _downloaded = 0;
+            PrintDownloadProgress(progress.BytesDownloaded);
+        }
+
+        private void PrintUploadProgressByPercentage(long progress, long total)
+        {
+            ClearCurrentConsoleLine();
+
+            _uploaded += progress;
+            Console.WriteLine($"Uploaded: {100 * _uploaded / total}%");
+        }
+
+        private void PrintDownloadProgress(long progress)
+        {
+            ClearCurrentConsoleLine();
+
+            _downloaded += progress;
+            Console.WriteLine($"Downloaded: {_downloaded / 1024}%");
         }
 
         private void DrawTextProgressBar(long progress, long total)
@@ -118,5 +271,24 @@ namespace CoreActivities.GoogleDriveApi
             Console.BackgroundColor = ConsoleColor.Black;
             Console.Write(progress.ToString() + " of " + total.ToString() + "    "); //blanks at the end remove any excess
         }
+
+        private object ApplyOptionalParams(object request, object optional)
+        {
+            if (optional == null)
+                return request;
+
+            System.Reflection.PropertyInfo[] optionalProperties = (optional.GetType()).GetProperties();
+
+            foreach (System.Reflection.PropertyInfo property in optionalProperties)
+            {
+                // Copy value from optional parms to the request.  They should have the same names and datatypes.
+                System.Reflection.PropertyInfo piShared = (request.GetType()).GetProperty(property.Name);
+                if (property.GetValue(optional, null) != null) // TODO Test that we do not add values for items that are null
+                    piShared.SetValue(request, property.GetValue(optional, null), null);
+            }
+
+            return request;
+        }
+        #endregion
     }
 }
