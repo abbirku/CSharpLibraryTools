@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "webcamsync",
+  "private_key_id": "a4fd4fb5c2719cedf20d7a98182616dd55dcb574",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC2D3MqeIoOEVo6\nJaoyEO+0BhaWdptYoWlT+wvGGO6U3sBJ1XNj0jB90+f9Kb6dGwBAueraV0+HZb6p\nOCzrUYa0rZm+AwbgAdXc+DwXfAFUspQUtRTf4zPfcDFSyHmMXr3XqL4sY/4CUmLC\nTdzm21uVClekSGjJcRRjfJQbjR6kZLzm6AVSsALjZxNXVtWlgbVnBrV/8Uo+Foji\nbM8OP3rRy751+Oy2ndSoBvplazxSqZDqr48tma2Fd7PJnuYOBBUz1cagAUOSCwlE\nMpMgAAIxYI9ynjf0KCbYofSzodOlTfMklWtMhHFwyI5UdGMONsbAROGBzL43G5Dx\ny6idUKDLAgMBAAECggEAHA5idYuQ3t0etfJC+acxgWEkzvglNXHebPI1nMgP0EJJ\niLdLqnjkPyfOSu3JcaWNEuxzvEUTPO7ZhHNjPLpaE3LjS+xkfVXbEsvwWsAh5l8E\nwfIr7tqxDkBYYYUCcjbRc7AN6oJYTRxMGtxr6+mnAd9PpUIBX/W8qh4zJtHHBJc8\nitfCYJEVqFbQxo8Vc9nLIlf5N9ITQisD+oLsqUBjbhAOac6YfubCmhr8LoEqrPnm\n5z5Q272y3sPvAlcgY/b7O1J3gBcCVFLvrGKu6YhUgaixML9Ui7b43RuchEwmuF50\n4CAyWuca3vFoBtSldCs2WapF3VveM5mjWtMqrXqUOQKBgQD1pz7SZjPMwLqh/C+1\nHIWhKDSgb38mvyTOxW6g9jf7RELcY4e81tPxes8so2IAsszAbrlavkA3EoirzqeH\nBqnmYIo+XX9LRDyRU9pQi7XUdBKyjyADbMH0TywrVxtU9/0n5R2PeS9Gj4jTX6b7\nVB7mW0HyF48KbCAaEbxo1moXSQKBgQC9uoOXA5C5jZDfyXHTpOykhYNMvvH9q7oS\nfNXY67uW9nmS2dpcKCZrX6upRSOAVrT1QptX1Oqm6jM1s2fyk21quihd4HmRtoYw\neauIXnHlzX8RFM58pGjH6NGxylCn2p7LqgDM9N5rOVnQXn+ODrZwbH+lRPYRY/KU\nwt78o7/TcwKBgQCz4qe/PLYb7tn8OobY8izsqVt4TI1o2znh7HOpjQPLjN4FMyE3\n6HzFbS/+uRnP9x62n5490+mEKp9IaIkG+Js7p2A0cRUBEdPke+n3Z4dcLy9t8B76\nQw74j22Bw0SxgPOx3jY6VPyIiB0i4/2MN7p050iwNg46DJmpXWmBv9lqeQKBgD0l\nG/2SP5UdQ6Brqox77WwEP1F/hDutmXUV2FFlf3piisHCBfaHVgJqvcb6qjtVNlKI\nmcnPq6QJfGGFJS3vR2cLAbFng6ZrPYnn3FlBntFhzd6yZu2SitZKeTIkMqQ199FJ\nQ6LKE9hYjlJx8gfVRAStYuHffLIUFPzOZNDk8RBzAoGAEbG9uLksc94qQxLbMOpi\nmbgCYCLLZ4z9npDLatQEMxBMy0JFG8vfoPyfD44fDCl2ubIzdZ8+P0twNxF2bEgg\nM5kg4uo7ZvHeCCEh0kPV78pGA6a1z5jqsVtv29CAx4Pa9C9ecAgCLH9POi9BIRWt\n2kUG0F6B7AesTnjXIVht8jE=\n-----END PRIVATE KEY-----\n",
+  "client_email": "webcamdatasnc@webcamsync.iam.gserviceaccount.com",
+  "client_id": "104904592306240427592",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/webcamdatasnc%40webcamsync.iam.gserviceaccount.com"
+}

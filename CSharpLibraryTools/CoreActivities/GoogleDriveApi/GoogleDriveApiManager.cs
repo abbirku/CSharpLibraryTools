@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CoreActivities.GoogleDriveApi
 {
-    public interface IIGoogleDriveApiManager
+    public interface IGoogleDriveApiManager
     {
         Task<GoogleDriveFiles> GetFilesAndFolders(string nextPageToken = null, FilesListOptionalParms optional = null);
         Task<string> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null);
@@ -21,7 +21,7 @@ namespace CoreActivities.GoogleDriveApi
         Task DownloadAsync(File file, string filePath, Action<IDownloadProgress> downloadProgress = null);
     }
 
-    public class GoogleDriveApiManagerAdapter : IIGoogleDriveApiManager
+    public class GoogleDriveApiManagerAdapter : IGoogleDriveApiManager
     {
         private readonly string _authfilePath;
         private readonly string _directoryId;

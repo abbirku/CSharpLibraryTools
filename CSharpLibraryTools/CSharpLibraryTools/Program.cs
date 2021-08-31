@@ -15,6 +15,9 @@ namespace CSharpLibraryTools
     {
         private static IContainer CompositionRoot()
         {
+            var authFilePath = AppSettingsInfo.CreateGoogleDriveAuthFile(AppSettingsInfo.GetCurrentValue<string>("AuthFileName"));
+            var directoryId = AppSettingsInfo.GetCurrentValue<string>("DirectoryId");
+
             var builder = new ContainerBuilder();
 
             builder.RegisterType<Application>();
@@ -23,7 +26,7 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new DirectoryManagerPackage());
             builder.RegisterModule(new EgmaCvPackage());
             builder.RegisterModule(new FileManagerPackage());
-            builder.RegisterModule(new GoogleDriveApiPackage());
+            builder.RegisterModule(new GoogleDriveApiPackage(authFilePath, directoryId));
             builder.RegisterModule(new RunningProgramPackage());
             builder.RegisterModule(new ScreenCapturePackage());
 
