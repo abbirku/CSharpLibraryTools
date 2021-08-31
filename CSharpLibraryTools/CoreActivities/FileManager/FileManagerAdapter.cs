@@ -15,13 +15,9 @@ namespace CoreActivities.FileManager
     public class FileManagerAdapter : IFileManager
     {
         private readonly IFile _file;
-        private readonly IFileStream _fileStream;
 
-        public FileManagerAdapter(IFile file, IFileStream fileStream)
-        {
-            _file = file;
-            _fileStream = fileStream;
-        }
+        public FileManagerAdapter(IFile file)
+            => _file = file;
 
         public void CreateFile(string path)
         {
@@ -40,7 +36,7 @@ namespace CoreActivities.FileManager
             if (!_file.DoesExists(filePath))
                 throw new Exception("File does not exists");
 
-            return _fileStream.ReadFileAsByte(filePath);
+            return _file.ReadFileAsByte(filePath);
         }
 
         public void SaveByteStream(string filePath, byte[] file)
@@ -48,7 +44,7 @@ namespace CoreActivities.FileManager
             if (string.IsNullOrWhiteSpace(filePath) || file == null || file.Length == 0)
                 throw new Exception("Provide valid file path and byte array to save the file stream.");
 
-            _fileStream.WriteFileBytes(filePath, file);
+            _file.WriteBytesStream(filePath, file);
         }
 
         public void SaveBitmapImage(string filePath, Bitmap bitmap)

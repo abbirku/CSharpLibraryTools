@@ -1,7 +1,4 @@
 ﻿using Autofac;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CoreActivities.FileManager
 {
@@ -14,8 +11,6 @@ namespace CoreActivities.FileManager
             builder.RegisterType<FileInfoAdapter>().As<IFileInfo>()
                    .InstancePerLifetimeScope();
             builder.RegisterType<FileManagerAdapter>().As<IFileManager>()
-                   .InstancePerLifetimeScope();
-            builder.RegisterType<FileStreamAdapter>().As<IFileStream>()
                    .InstancePerLifetimeScope();
 
             base.Load(builder);
