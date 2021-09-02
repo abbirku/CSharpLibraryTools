@@ -7,7 +7,7 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpLibraryTools.Implementations
+namespace CSharpLibraryTools
 {
     public class FileManagerImp
     {
@@ -46,14 +46,14 @@ namespace CSharpLibraryTools.Implementations
             var filePath = _directoryManager.CreateProgramDataFilePath(folder, "file.txt");
             var fileName = _file.FileName(filePath);
 
-            Console.WriteLine($"FilePath: {filePath}, FileName: {fileName}");
+            Console.WriteLine($"FilePath: {filePath},\n FileName: {fileName}");
 
             //Checks the file does exists. If not then create
-            if (_file.DoesExists(filePath))
+            if (!_file.DoesExists(filePath))
                 _file.CreateFile(filePath);
 
             //Prints created file mime type
-            Console.WriteLine($"MimeType: {_file.GetMimeType(filePath)}");
+            Console.WriteLine($"MimeType: {_file.GetMimeType(filePath)}\n");
 
             //WriteAllTextAsync is same as WriteAllLineAsync but just write a string as text
             //Note: Using WriteAllLineAsync and WriteAllTextAsync will override text of each other
@@ -67,21 +67,27 @@ namespace CSharpLibraryTools.Implementations
             var singleLine = await _file.ReadAllTextAsync(filePath);
 
             Console.WriteLine("ReadAllLineAsync");
+            Console.WriteLine("----------------");
             foreach (var item in allLines)
                 Console.WriteLine(item);
+            Console.WriteLine();
 
             Console.WriteLine("ReadAllTextAsync");
+            Console.WriteLine("----------------");
             Console.WriteLine(singleLine);
+            Console.WriteLine();
 
             Console.WriteLine("Printing base 64 string");
+            Console.WriteLine("-----------------------");
             var bytes = _file.ReadFileAsByte(filePath);
             Console.WriteLine(_file.ConvertByteToBase64String(bytes));
             var streanFilePath = _directoryManager.CreateProgramDataFilePath(folder, "streanFile.txt");
             _file.WriteBytesStream(streanFilePath, bytes);
+            Console.WriteLine();
             #endregion
 
             #region IFileInfo Implementation
-            Console.WriteLine($"Filesize: {_fileInfo.FileSize(filePath)}");
+            Console.WriteLine($"Filesize: {_fileInfo.FileSize(filePath)} Bytes");
             Console.WriteLine($"IsReadonly: {_fileInfo.IsReadOnly(filePath)}");
             Console.WriteLine($"CreatedOn: {_fileInfo.CreatedOn(filePath)}");
             Console.WriteLine($"LastUpdateOn: {_fileInfo.LastUpdateOn(filePath)}");

@@ -20,6 +20,7 @@ namespace CSharpLibraryTools
 
             var builder = new ContainerBuilder();
 
+            //Registering packages
             builder.RegisterType<Application>();
             builder.RegisterModule(new ActiveProgramPackage());
             builder.RegisterModule(new BrowserActivityPackage());
@@ -29,6 +30,24 @@ namespace CSharpLibraryTools
             builder.RegisterModule(new GoogleDriveApiPackage(authFilePath, directoryId));
             builder.RegisterModule(new RunningProgramPackage());
             builder.RegisterModule(new ScreenCapturePackage());
+
+            //Registering implementations
+            builder.RegisterType<ActiveProgramImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<BrowseActivityImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<DirectoryManagerImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<EgmaCvImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<FileManagerImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<GoogleDriveApiImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<RunningProgramImp>()
+                   .InstancePerLifetimeScope();
+            builder.RegisterType<ScreenCaptureImp>()
+                   .InstancePerLifetimeScope();
 
             return builder.Build();
         }

@@ -1,5 +1,6 @@
 ﻿using CoreActivities.ActiveProgram;
 using System;
+using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
@@ -10,11 +11,12 @@ namespace CSharpLibraryTools
         public ActiveProgramImp(IActiveProgram activeProgram)
             => _activeProgram = activeProgram;
 
-        public void Run()
+        public async Task Run()
         {
-            Console.WriteLine($"Active Program: {_activeProgram.CaptureActiveProgramTitle()}");
-            Console.WriteLine();
-            Console.WriteLine();
+            await Task.Run(() =>
+            {
+                Console.WriteLine($"Active Program: {_activeProgram.CaptureActiveProgramTitle()}");
+            });
         }
     }
 }

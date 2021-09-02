@@ -28,9 +28,17 @@ namespace CoreActivities.FileManager
     {
         public string FileName(string filePath) => Path.GetFileName(filePath);
 
-        public void CreateFile(string filePath) => File.Create(filePath);
+        public void CreateFile(string filePath)
+        {
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+            File.Create(filePath);
+        }
 
-        public bool DoesExists(string filePath) => File.Exists(filePath);
+        public bool DoesExists(string filePath)
+        {
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+            return File.Exists(filePath);
+        }
 
         public string GetMimeType(string fileName)
         {
@@ -41,7 +49,11 @@ namespace CoreActivities.FileManager
             return contentType;
         }
 
-        public byte[] ReadFileAsByte(string filePath) => File.ReadAllBytes(filePath);
+        public byte[] ReadFileAsByte(string filePath)
+        {
+            using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.ReadWrite);
+            return File.ReadAllBytes(filePath);
+        }
 
         public string ConvertByteToBase64String(byte[] file) => Convert.ToBase64String(file);
 
@@ -51,16 +63,40 @@ namespace CoreActivities.FileManager
             fileStream.Write(file, 0, file.Length);
         }
 
-        public async Task WriteAllLineAsync(List<string> lines, string filePath) => await File.WriteAllLinesAsync(filePath, lines);
+        public async Task WriteAllLineAsync(List<string> lines, string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            await File.WriteAllLinesAsync(filePath, lines);
+        }
 
-        public async Task WriteAllTextAsync(string text, string filePath) => await File.WriteAllTextAsync(filePath, text);
+        public async Task WriteAllTextAsync(string text, string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            await File.WriteAllTextAsync(filePath, text);
+        }
 
-        public async Task AppendAllLineAsync(List<string> lines, string filePath) => await File.AppendAllLinesAsync(filePath, lines);
+        public async Task AppendAllLineAsync(List<string> lines, string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            await File.AppendAllLinesAsync(filePath, lines);
+        }
 
-        public async Task AppendAllTextAsync(string text, string filePath) => await File.AppendAllTextAsync(filePath, text);
+        public async Task AppendAllTextAsync(string text, string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            await File.AppendAllTextAsync(filePath, text);
+        }
 
-        public async Task<string[]> ReadAllLineAsync(string filePath) => await File.ReadAllLinesAsync(filePath);
+        public async Task<string[]> ReadAllLineAsync(string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            return await File.ReadAllLinesAsync(filePath);
+        }
 
-        public async Task<string> ReadAllTextAsync(string filePath) => await File.ReadAllTextAsync(filePath);
+        public async Task<string> ReadAllTextAsync(string filePath)
+        {
+            using var stream = File.Open(filePath, FileMode.Open, FileAccess.Write, FileShare.Read);
+            return await File.ReadAllTextAsync(filePath);
+        }
     }
 }

@@ -1,7 +1,8 @@
 ﻿using CoreActivities.RunningPrograms;
 using System;
+using System.Threading.Tasks;
 
-namespace CSharpLibraryTools.Implementations
+namespace CSharpLibraryTools
 {
     public class RunningProgramImp
     {
@@ -12,18 +13,23 @@ namespace CSharpLibraryTools.Implementations
             _runningPrograms = runningPrograms;
         }
 
-        public void Run()
+        public async Task Run()
         {
-            var runningProcesses = _runningPrograms.GetRunningProcessList();
-            var runningPrograms = _runningPrograms.GetRunningProgramsList();
+            await Task.Run(() =>
+            {
+                var runningProcesses = _runningPrograms.GetRunningProcessList();
+                var runningPrograms = _runningPrograms.GetRunningProgramsList();
 
-            Console.WriteLine("Running Processes");
-            foreach (var item in runningProcesses)
-                Console.WriteLine(item);
+                Console.WriteLine("Running Processes");
+                foreach (var item in runningProcesses)
+                    Console.WriteLine(item);
+                Console.WriteLine();
 
-            Console.WriteLine("Running Programs");
-            foreach (var item in runningPrograms)
-                Console.WriteLine(item);
+                Console.WriteLine("Running Programs");
+                foreach (var item in runningPrograms)
+                    Console.WriteLine(item);
+                Console.WriteLine();
+            });
         }
     }
 }

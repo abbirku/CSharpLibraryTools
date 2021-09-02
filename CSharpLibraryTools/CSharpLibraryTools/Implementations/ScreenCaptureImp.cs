@@ -4,8 +4,9 @@ using CoreActivities.ScreenCapture;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace CSharpLibraryTools.Implementations
+namespace CSharpLibraryTools
 {
     public class ScreenCaptureImp
     {
@@ -25,17 +26,22 @@ namespace CSharpLibraryTools.Implementations
             _file = file;
         }
 
-        public void Run()
+        public async Task Run()
         {
-            var folder = "CSharpLib";
+            await Task.Run(() =>
+            {
+                var folder = "CSharpLib";
 
-            Console.WriteLine("Capturing and storing image");
+                Console.WriteLine("Capturing and storing image");
 
-            var filePath = _directoryManager.CreateProgramDataFilePath(folder, $"{Guid.NewGuid()}.jpeg");
-            _fileManager.CreateFile(filePath);
+                var filePath = _directoryManager.CreateProgramDataFilePath(folder, $"{Guid.NewGuid()}.jpg");
+                _fileManager.CreateFile(filePath);
 
-            var capturedScreen = _screenCapture.CaptureUserScreen(1920, 1080);
-            _fileManager.SaveBitmapImage(filePath, capturedScreen);
+                var capturedScreen = _screenCapture.CaptureUserScreen(1920, 1080);
+                _fileManager.SaveBitmapImage(filePath, capturedScreen);
+
+                Console.WriteLine($"Image Captured. FilePath: {filePath}");
+            });
         }
     }
 }

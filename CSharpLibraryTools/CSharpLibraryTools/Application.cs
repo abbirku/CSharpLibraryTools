@@ -1,53 +1,89 @@
-﻿using CoreActivities.ActiveProgram;
-using CoreActivities.BrowserActivity;
-using CoreActivities.DirectoryManager;
-using CoreActivities.EgmaCV;
-using System;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
     public class Application
     {
-        private readonly IActiveProgram _activeProgram;
-        private readonly IBrowserActivity _browserActivity;
-        private readonly IDirectoryManager _directoryManager;
-        private readonly IEgmaCv _egmaCv;
+        private readonly ActiveProgramImp _activeProgramImp;
+        private readonly BrowseActivityImp _browseActivityImp;
+        private readonly DirectoryManagerImp _directoryManagerImp;
+        private readonly EgmaCvImp _egmaCv;
+        private readonly FileManagerImp _fileManagerImp;
+        private readonly RunningProgramImp _runningProgramImp;
+        private readonly ScreenCaptureImp _screenCaptureImp;
+        private readonly GoogleDriveApiImp _googleDriveApiImp;
 
-        public Application(IActiveProgram activeProgram,
-            IBrowserActivity browserActivity,
-            IDirectoryManager directoryManager,
-            IEgmaCv egmaCv)
+        public Application(ActiveProgramImp activeProgramImp,
+            BrowseActivityImp browseActivityImp,
+            DirectoryManagerImp directoryManagerImp,
+            EgmaCvImp egmaCv,
+            FileManagerImp fileManagerImp,
+            RunningProgramImp runningProgramImp,
+            ScreenCaptureImp screenCaptureImp,
+            GoogleDriveApiImp googleDriveApiImp)
         {
-            _activeProgram = activeProgram;
-            _browserActivity = browserActivity;
-            _directoryManager = directoryManager;
+            _activeProgramImp = activeProgramImp;
+            _browseActivityImp = browseActivityImp;
+            _directoryManagerImp = directoryManagerImp;
             _egmaCv = egmaCv;
+            _fileManagerImp = fileManagerImp;
+            _runningProgramImp = runningProgramImp;
+            _screenCaptureImp = screenCaptureImp;
+            _googleDriveApiImp = googleDriveApiImp;
         }
 
         public async Task Run()
         {
-            var title = _activeProgram.CaptureActiveProgramTitle();
-            Console.WriteLine($"Present active program title is {title}");
+            try
+            {
+                TitlePrinter("Active Program Information");
+                await _activeProgramImp.Run();
+                PrintSeperator(20);
 
-            Console.WriteLine("-------------------------------------------");
+                TitlePrinter("Browser Activity");
+                await _browseActivityImp.Run();
+                PrintSeperator(20);
 
-            var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
-            foreach (var item in tabs)
-                Console.WriteLine(item);
+                TitlePrinter("Directory Manager");
+                await _directoryManagerImp.Run();
+                PrintSeperator(20);
 
-            var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
-            Console.WriteLine($"Active URL: {activeUrl}");
+                TitlePrinter("Webcam");
+                await _egmaCv.Run();
+                PrintSeperator(20);
 
-            Console.WriteLine("-------------------------------------------");
+                TitlePrinter("File Manger");
+                await _fileManagerImp.Run();
+                PrintSeperator(20);
 
-            Console.WriteLine(_directoryManager.GetProgramDataDirectoryPath("WebCam"));
-            _directoryManager.ChecknCreateDirectory("WebCam");
-            Console.WriteLine(_directoryManager.CreateProgramDataFilePath("WebCam", "file.txt"));
-            
-            Console.WriteLine("-------------------------------------------");
-            var rand = new Random();
-            await _egmaCv.CaptureImageAsync(0, _directoryManager.CreateProgramDataFilePath("WebCam", $"{rand.Next(10, 9999)}.jpg"));
+                TitlePrinter("Running Programs");
+                await _runningProgramImp.Run();
+                PrintSeperator(20);
+
+                //TitlePrinter("Screen Capture");
+                //await _screenCaptureImp.Run();
+                //PrintSeperator(20);
+
+                TitlePrinter("Google Drive Api");
+                await _googleDriveApiImp.Run();
+                PrintSeperator(20);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public void TitlePrinter(string title)
+            => Console.WriteLine($"{title}\n{new string('-', title.Count())}");
+
+        public void PrintSeperator(int length)
+        {
+            var seperator = new string('=', length);
+            Console.WriteLine($"{seperator}\n{seperator}\n");
         }
     }
 }

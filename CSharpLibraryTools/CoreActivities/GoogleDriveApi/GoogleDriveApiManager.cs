@@ -16,7 +16,7 @@ namespace CoreActivities.GoogleDriveApi
     public interface IGoogleDriveApiManager
     {
         Task<GoogleDriveFiles> GetFilesAndFolders(string nextPageToken = null, FilesListOptionalParms optional = null);
-        Task<string> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null);
+        Task<File> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null);
         Task DeleteAsync(string fileId, FilesDeleteOptionalParms optional = null);
         Task DownloadAsync(File file, string filePath, Action<IDownloadProgress> downloadProgress = null);
     }
@@ -103,7 +103,7 @@ namespace CoreActivities.GoogleDriveApi
 
         }
 
-        public async Task<string> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null)
+        public async Task<File> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null)
         {
             //Initialization
             _uploaded = 0;
@@ -143,7 +143,7 @@ namespace CoreActivities.GoogleDriveApi
                 if (results.Status == UploadStatus.Failed)
                     throw new Exception($"Error uploading file: {results.Exception.Message}");
 
-                return request.ResponseBody?.Id;
+                return request.ResponseBody;
             }
             else
                 throw new Exception("Provide valid upload file information");

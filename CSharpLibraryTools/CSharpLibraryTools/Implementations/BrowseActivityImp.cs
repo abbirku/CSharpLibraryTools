@@ -1,5 +1,6 @@
 ﻿using CoreActivities.BrowserActivity;
 using System;
+using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
 {
@@ -12,14 +13,17 @@ namespace CSharpLibraryTools
             _browserActivity = browserActivity;
         }
 
-        public void Run()
+        public async Task Run()
         {
-            var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
-            Console.WriteLine($"Active URL: {activeUrl}");
+            await Task.Run(() =>
+            {
+                var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
+                Console.WriteLine($"Active URL: {activeUrl}\n");
 
-            var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
-            foreach (var item in tabs)
-                Console.WriteLine(item);
+                var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
+                foreach (var item in tabs)
+                    Console.WriteLine($"Tab: {item}");
+            });
         }
     }
 }

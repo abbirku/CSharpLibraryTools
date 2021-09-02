@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CSharpLibraryTools.Implementations
+namespace CSharpLibraryTools
 {
     public class EgmaCvImp
     {
@@ -25,6 +25,7 @@ namespace CSharpLibraryTools.Implementations
             var fileName = $"{Guid.NewGuid()}.jpg";
             var filePath = _directoryManager.CreateProgramDataFilePath("CsLibDropBox", fileName);
             await _egmaCv.CaptureImageAsync(0, filePath);
+            Console.WriteLine($"Image Captured. FilePath: {filePath}");
         }
     }
 }
