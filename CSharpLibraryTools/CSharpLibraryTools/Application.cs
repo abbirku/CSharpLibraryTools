@@ -62,9 +62,9 @@ namespace CSharpLibraryTools
                 //await _runningProgramImp.Run();
                 //PrintSeperator(20);
 
-                //TitlePrinter("Screen Capture");
-                //await _screenCaptureImp.Run();
-                //PrintSeperator(20);
+                TitlePrinter("Screen Capture");
+                await _screenCaptureImp.Run();
+                PrintSeperator(20);
 
                 //TitlePrinter("Google Drive Api");
                 //await _googleDriveApiImp.Run();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace CoreActivities.FileManager
@@ -53,7 +54,11 @@ namespace CoreActivities.FileManager
             if (string.IsNullOrWhiteSpace(filePath) || bitmap == null)
                 throw new Exception("Provide valid file path and bitmap to save the image.");
 
-            bitmap.Save(filePath, ImageFormat.Jpeg);
+            using var memory = new MemoryStream();
+            using var fs = new FileStream(filePath, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+            bitmap.Save(memory, ImageFormat.Jpeg);
+            var bytes = memory.ToArray();
+            fs.Write(bytes, 0, bytes.Length);
         }
     }
 }

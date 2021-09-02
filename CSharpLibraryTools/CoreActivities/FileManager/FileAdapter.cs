@@ -30,7 +30,8 @@ namespace CoreActivities.FileManager
 
         public void CreateFile(string filePath)
         {
-            File.Create(filePath);
+            var stream = File.Create(filePath);
+            stream.Close();
         }
 
         public bool DoesExists(string filePath)
