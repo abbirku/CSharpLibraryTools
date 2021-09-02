@@ -3,8 +3,6 @@ using CoreActivities.EgmaCV;
 using CoreActivities.FileManager;
 using System;
 using System.Collections.Generic;
-using System.Drawing.Drawing2D;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
@@ -79,11 +77,14 @@ namespace CSharpLibraryTools
 
             Console.WriteLine("Printing base 64 string");
             Console.WriteLine("-----------------------");
-            var bytes = _file.ReadFileAsByte(filePath);
+            
+            var bytes = await _file.ReadFileAsByteAsync(filePath);
             Console.WriteLine(_file.ConvertByteToBase64String(bytes));
+            
             var streanFilePath = _directoryManager.CreateProgramDataFilePath(folder, "streanFile.txt");
-            _file.WriteBytesStream(streanFilePath, bytes);
+            await _file.WriteBytesStreamAsync(streanFilePath, bytes);
             Console.WriteLine();
+            
             #endregion
 
             #region IFileInfo Implementation
@@ -98,8 +99,8 @@ namespace CSharpLibraryTools
             var writtenTextFilePath = _directoryManager.CreateProgramDataFilePath(folder, "written_text.txt");
             _fileManager.CreateFile(writtenTextFilePath);
             
-            var readBytes = _fileManager.ReadFileAsByte(filePath);
-            _fileManager.SaveByteStream(writtenTextFilePath, readBytes);
+            var readBytes = await _fileManager.ReadFileAsByteAsync(filePath);
+            await _fileManager.SaveByteStreamAsync(writtenTextFilePath, readBytes);
             #endregion
         }
     }

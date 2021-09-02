@@ -38,42 +38,41 @@ namespace CSharpLibraryTools
         {
             try
             {
-                TitlePrinter("Active Program Information");
-                await _activeProgramImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Active Program Information");
+                //await _activeProgramImp.Run();
+                //PrintSeperator(20);
 
-                TitlePrinter("Browser Activity");
-                await _browseActivityImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Browser Activity");
+                //await _browseActivityImp.Run();
+                //PrintSeperator(20);
 
-                TitlePrinter("Directory Manager");
-                await _directoryManagerImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Directory Manager");
+                //await _directoryManagerImp.Run();
+                //PrintSeperator(20);
 
-                TitlePrinter("Webcam");
-                await _egmaCv.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Webcam");
+                //await _egmaCv.Run();
+                //PrintSeperator(20);
 
-                TitlePrinter("File Manger");
-                await _fileManagerImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("File Manager");
+                //await _fileManagerImp.Run();
+                //PrintSeperator(20);
 
-                TitlePrinter("Running Programs");
-                await _runningProgramImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Running Programs");
+                //await _runningProgramImp.Run();
+                //PrintSeperator(20);
 
                 //TitlePrinter("Screen Capture");
                 //await _screenCaptureImp.Run();
                 //PrintSeperator(20);
 
-                TitlePrinter("Google Drive Api");
-                await _googleDriveApiImp.Run();
-                PrintSeperator(20);
+                //TitlePrinter("Google Drive Api");
+                //await _googleDriveApiImp.Run();
+                //PrintSeperator(20);
             }
             catch (Exception ex)
             {
 
-                throw;
             }
         }
 
