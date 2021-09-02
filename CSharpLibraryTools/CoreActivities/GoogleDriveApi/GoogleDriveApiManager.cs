@@ -236,7 +236,7 @@ namespace CoreActivities.GoogleDriveApi
             ClearCurrentConsoleLine();
 
             _downloaded += progress;
-            Console.WriteLine($"Downloaded: {_downloaded / 1024}%");
+            Console.WriteLine($"Downloaded: {(decimal)_downloaded / 1024} Kilo Bytes");
         }
 
         private void DrawTextProgressBar(long progress, long total)

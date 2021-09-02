@@ -23,7 +23,7 @@ namespace CSharpLibraryTools
         {
             //The following capture image from webcam and store it on a file
             var fileName = $"{Guid.NewGuid()}.jpg";
-            var filePath = _directoryManager.CreateProgramDataFilePath("CsLibDropBox", fileName);
+            var filePath = _directoryManager.CreateProgramDataFilePath("CSharpLib", fileName);
             await _egmaCv.CaptureImageAsync(0, filePath);
             Console.WriteLine($"Image Captured. FilePath: {filePath}");
         }
