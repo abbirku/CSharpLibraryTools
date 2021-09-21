@@ -192,3 +192,7 @@ _**Interface & Its members**_
 
 _**Usage**_
 - Follow _ScreenCaptureImp_
+
+_**Observation Notes**_
+- Follow .csproj if fall into dependency issue.
+- Follow Program.cs for Package registration.
