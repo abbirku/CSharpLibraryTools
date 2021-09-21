@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CoreActivities.FileManager
@@ -12,7 +11,7 @@ namespace CoreActivities.FileManager
         string FileName(string filePath);
         bool DoesExists(string filePath);
         void CreateFile(string filePath);
-        string GetMimeType(string fileName);
+        string GetMimeType(string filePath);
         Task<byte[]> ReadFileAsByteAsync(string filePath);
         string ConvertByteToBase64String(byte[] file);
         Task WriteBytesStreamAsync(string filePath, byte[] file);
@@ -39,10 +38,10 @@ namespace CoreActivities.FileManager
             return File.Exists(filePath);
         }
 
-        public string GetMimeType(string fileName)
+        public string GetMimeType(string filePath)
         {
             var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(fileName, out string contentType))
+            if (!provider.TryGetContentType(filePath, out string contentType))
                 contentType = "application/octet-stream";
 
             return contentType;
