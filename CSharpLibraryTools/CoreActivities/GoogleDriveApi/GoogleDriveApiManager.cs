@@ -16,6 +16,7 @@ namespace CoreActivities.GoogleDriveApi
     public interface IGoogleDriveApiManager
     {
         Task<GoogleDriveFiles> GetFilesAndFolders(string nextPageToken = null, FilesListOptionalParms optional = null);
+        Task<IList<File>> GetAllFilesAndFolders(FilesListOptionalParms optional = null);
         Task<File> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null);
         Task DeleteAsync(string fileId, FilesDeleteOptionalParms optional = null);
         Task DownloadAsync(File file, string filePath, Action<IDownloadProgress> downloadProgress = null);
@@ -101,6 +102,35 @@ namespace CoreActivities.GoogleDriveApi
                 }
             });
 
+        }
+
+        public async Task<IList<File>> GetAllFilesAndFolders(FilesListOptionalParms optional = null)
+        {
+            GoogleDriveFiles results = null;
+            FilesListOptionalParms optionals = null;
+            var files = new List<File>();
+
+            if(optional == null)
+            {
+                optionals = new FilesListOptionalParms
+                {
+                    PageSize = 5, //Provide positive integer for pagination
+                    Fields = "nextPageToken, files(id, name, mimeType, kind, trashed)" //Follow this pattern to retrive only specified object fields
+                };
+            }
+
+            do
+            {
+                if (results == null)
+                    results = await GetFilesAndFolders(null, optionals);
+                else
+                    results = await GetFilesAndFolders(results.NextPageToken, optionals);
+
+                files.AddRange(results.Files);
+
+            } while (results != null && !string.IsNullOrEmpty(results.NextPageToken));
+
+            return files;
         }
 
         public async Task<File> UploadFileAsync(UploadFileInfo uploadFileInfo, Action<IUploadProgress> uploadProgress = null)
