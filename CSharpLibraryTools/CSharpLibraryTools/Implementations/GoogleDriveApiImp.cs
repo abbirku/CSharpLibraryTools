@@ -2,12 +2,8 @@
 using CoreActivities.FileManager;
 using CoreActivities.GoogleDriveApi;
 using CoreActivities.GoogleDriveApi.Models;
-using CoreActivities.GoogleDriveApi.Parms;
 using CoreActivities.RunningPrograms;
-using Google.Apis.Drive.v3.Data;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CSharpLibraryTools
@@ -88,37 +84,16 @@ namespace CSharpLibraryTools
             }
         }
 
-        private async Task<IList<File>> PrintFilesInAGoogleDirectory()
+        private async Task PrintFilesInAGoogleDirectory()
         {
-            var files = new List<File>();
-
-            var optionals = new FilesListOptionalParms
-            {
-                PageSize = 5, //Provide positive integer for pagination
-                Fields = "nextPageToken, files(id, name, mimeType, kind, trashed)" //Follow this pattern to retrive only specified object fields
-            };
-
-            GoogleDriveFiles results = null;
             var counter = 0;
+            var files = await _googleDriveApiManager.GetAllFilesAndFolders();
 
-            do
+            foreach (var item in files)
             {
-                if (results == null)
-                    results = await _googleDriveApiManager.GetFilesAndFolders(null, optionals);
-                else
-                    results = await _googleDriveApiManager.GetFilesAndFolders(results.NextPageToken, optionals);
-
-                files.AddRange(results.Files);
-
-                foreach (var item in results.Files)
-                {
-                    Console.WriteLine($"SL: {counter} Name: {item.Name}");
-                    counter++;
-                }
-
-            } while (results != null && !string.IsNullOrEmpty(results.NextPageToken));
-
-            return files;
+                Console.WriteLine($"SL: {counter} Name: {item.Name}");
+                counter++;
+            }
         }
     }
 }
