@@ -7,22 +7,45 @@ namespace CSharpLibraryTools
     public class BrowseActivityImp
     {
         private readonly IBrowserActivity _browserActivity;
+        private readonly BrowserActivityEnumAdaptee _browserActivityEnumAdaptee;
 
-        public BrowseActivityImp(IBrowserActivity browserActivity)
+        public BrowseActivityImp(IBrowserActivity browserActivity,
+            BrowserActivityEnumAdaptee browserActivityEnumAdaptee)
         {
             _browserActivity = browserActivity;
+            _browserActivityEnumAdaptee = browserActivityEnumAdaptee;
         }
 
         public async Task Run()
         {
             await Task.Run(() =>
             {
-                var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
-                Console.WriteLine($"Active URL: {activeUrl}\n");
+                //Check browser open or not
+                Console.WriteLine($"The browser {_browserActivityEnumAdaptee.ToDescriptionString(BrowserType.Chrome)} " +
+                    $"{(_browserActivity.IsBrowserOpen(BrowserType.Chrome)?"is open": "is not open")}");
 
-                var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
-                foreach (var item in tabs)
-                    Console.WriteLine($"Tab: {item}");
+                Console.WriteLine($"The browser {_browserActivityEnumAdaptee.ToDescriptionString(BrowserType.Edge)} " +
+                    $"{(_browserActivity.IsBrowserOpen(BrowserType.Edge) ? "is open" : "is not open")}");
+
+                Console.WriteLine($"The browser {_browserActivityEnumAdaptee.ToDescriptionString(BrowserType.FireFox)} " +
+                    $"{(_browserActivity.IsBrowserOpen(BrowserType.FireFox) ? "is open" : "is not open")}");
+
+                Console.WriteLine($"The browser {_browserActivityEnumAdaptee.ToDescriptionString(BrowserType.Opera)} " +
+                    $"{(_browserActivity.IsBrowserOpen(BrowserType.Opera) ? "is open" : "is not open")}");
+
+                Console.WriteLine($"The browser {_browserActivityEnumAdaptee.ToDescriptionString(BrowserType.Safari)} " +
+                    $"{(_browserActivity.IsBrowserOpen(BrowserType.Safari) ? "is open" : "is not open")}");
+
+                //Check open browser active url and tabs
+                if (_browserActivity.IsBrowserOpen(BrowserType.Chrome))
+                {
+                    var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
+                    Console.WriteLine($"Active URL: {activeUrl}\n");
+
+                    var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
+                    foreach (var item in tabs)
+                        Console.WriteLine($"Tab: {item}");
+                }
             });
         }
     }

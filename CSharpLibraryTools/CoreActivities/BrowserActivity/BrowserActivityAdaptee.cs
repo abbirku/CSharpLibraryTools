@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows.Automation;
 
 namespace CoreActivities.BrowserActivity
@@ -96,6 +97,13 @@ namespace CoreActivities.BrowserActivity
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public IList<string> GetBrowserProcessByBrowserType(BrowserType browserType)
+        {
+            var browser = _browserActivityEnumAdaptee.ToDescriptionString(browserType).ToLower();
+            var processes = Process.GetProcessesByName(browser);
+            return processes.Select(x => x.MainWindowTitle).GroupBy(x => x).Select(x => x.Key).ToList();
         }
     }
 }
