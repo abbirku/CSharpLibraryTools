@@ -4,6 +4,14 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<Authors>Md Shams Wadud</Authors>
+		<Company>Reason Follower</Company>
+		<PackageId>ReasonFollower.CSharpLibraryTools.CoreActivities</PackageId>
+		<Description>Aim of this package is to separate daily code in a SOLID manner so that we could re-use the code again without reinventing the wheel.</Description>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/abbirku/CSharpLibraryTools</RepositoryUrl>
+		<PackageTags>Screen Capture, Running Programs, Google Drive, File Manager, Directory manager, Browser Activity, Active Program</PackageTags>
 	</PropertyGroup>
 
 	<ItemGroup>
