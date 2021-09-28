@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CoreActivities.BrowserActivity
 {
     public interface IBrowserActivity
     {
+        bool IsBrowserOpen(BrowserType browserType);
         IList<string> EnlistAllOpenTabs(BrowserType browserType);
         string EnlistActiveTabUrl(BrowserType browserType);
     }
@@ -38,6 +40,13 @@ namespace CoreActivities.BrowserActivity
                 throw new Exception($"No tabs found in {_browserActivityEnumAdaptee.ToDescriptionString(browserType)} browser");
 
             return tabs;
+        }
+
+        public bool IsBrowserOpen(BrowserType browserType)
+        {
+            var title = _browserActivityEnumAdaptee.ToDescriptionString(browserType);
+            var browserTitles = _browserActivityAdaptee.GetBrowserProcessByBrowserType(browserType);
+            return browserTitles.Count > 0 && browserTitles.Any(x => x.ToLower().Contains(title.ToLower()));
         }
     }
 }
