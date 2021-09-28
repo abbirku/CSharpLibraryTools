@@ -44,9 +44,9 @@ namespace CoreActivities.BrowserActivity
 
         public bool IsBrowserOpen(BrowserType browserType)
         {
-            var title = _browserActivityEnumAdaptee.ToDescriptionString(browserType);
+            var title = _browserActivityEnumAdaptee.ToDescriptionString(browserType).ToLower();
             var browserTitles = _browserActivityAdaptee.GetBrowserProcessByBrowserType(browserType);
-            return browserTitles.Count > 0 && browserTitles.Any(x => x.ToLower().Contains(title.ToLower()));
+            return browserTitles.Count > 0 && browserTitles.Any(x => x.MainWindowTitle.ToLower().Contains(title.ToLower()));
         }
     }
 }

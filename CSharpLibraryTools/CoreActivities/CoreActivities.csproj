@@ -4,7 +4,7 @@
 		<OutputType>Library</OutputType>
 		<TargetFramework>net5.0-windows</TargetFramework>
 		<TargetFramework>netcoreapp3.1</TargetFramework>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 		<Authors>Md Shams Wadud</Authors>
 		<Company>Reason Follower</Company>
 		<PackageId>ReasonFollower.CSharpLibraryTools.CoreActivities</PackageId>
@@ -12,6 +12,9 @@
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<RepositoryUrl>https://github.com/abbirku/CSharpLibraryTools</RepositoryUrl>
 		<PackageTags>Screen Capture, Running Programs, Google Drive, File Manager, Directory manager, Browser Activity, Active Program</PackageTags>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Version>1.0.1</Version>
+		<PackageReleaseNotes>Provide IsBrowserOpen(BrowserType type) In IBrowserActivity</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

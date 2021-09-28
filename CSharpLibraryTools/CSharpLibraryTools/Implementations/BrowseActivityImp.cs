@@ -46,6 +46,16 @@ namespace CSharpLibraryTools
                     foreach (var item in tabs)
                         Console.WriteLine($"Tab: {item}");
                 }
+
+                if (_browserActivity.IsBrowserOpen(BrowserType.Edge))
+                {
+                    var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Edge);
+                    Console.WriteLine($"Active URL: {activeUrl}\n");
+
+                    var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Edge);
+                    foreach (var item in tabs)
+                        Console.WriteLine($"Tab: {item}");
+                }
             });
         }
     }
