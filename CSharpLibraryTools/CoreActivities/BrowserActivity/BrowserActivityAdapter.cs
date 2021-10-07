@@ -9,6 +9,7 @@ namespace CoreActivities.BrowserActivity
         bool IsBrowserOpen(BrowserType browserType);
         IList<string> EnlistAllOpenTabs(BrowserType browserType);
         string EnlistActiveTabUrl(BrowserType browserType);
+        string EnlistActiveTabTitle(BrowserType browserType);
     }
 
     public class BrowserActivityAdapter : IBrowserActivity
@@ -21,6 +22,16 @@ namespace CoreActivities.BrowserActivity
         {
             _browserActivityAdaptee = browserActivityAdaptee;
             _browserActivityEnumAdaptee = browserActivityEnumAdaptee;
+        }
+
+        public string EnlistActiveTabTitle(BrowserType browserType)
+        {
+            var tabTitle = _browserActivityAdaptee.GetActiveTabTitle(browserType);
+
+            if (string.IsNullOrWhiteSpace(tabTitle))
+                throw new Exception($"No active tab title found in {_browserActivityEnumAdaptee.ToDescriptionString(browserType)} browser");
+
+            return tabTitle;
         }
 
         public string EnlistActiveTabUrl(BrowserType browserType)
