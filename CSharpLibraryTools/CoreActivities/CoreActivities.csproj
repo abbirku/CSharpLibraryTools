@@ -13,8 +13,8 @@
 		<RepositoryUrl>https://github.com/abbirku/CSharpLibraryTools</RepositoryUrl>
 		<PackageTags>Screen Capture, Running Programs, Google Drive, File Manager, Directory manager, Browser Activity, Active Program</PackageTags>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Version>1.1.1</Version>
-		<PackageReleaseNotes>Fix IBrowserActivity for edge</PackageReleaseNotes>
+		<Version>1.2.1</Version>
+		<PackageReleaseNotes>Add EnlistActiveTabTitle in IBrowserActivity</PackageReleaseNotes>
 	</PropertyGroup>
 
 	<ItemGroup>

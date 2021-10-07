@@ -47,6 +47,7 @@ _**Interface & Its members**_
 | ------ | ------ |
 | EnlistAllOpenTabs(BrowserType browserType) | Returns list of open tabs title of a browser. |
 | EnlistActiveTabUrl(BrowserType browserType) | Returns url string of present visting website in a browser. |
+| EnlistActiveTabTitle(BrowserType browserType) | Returns tab title of present visting website in a browser. |
 | IsBrowserOpen(BrowserType browserType) | Returns bool. |
 
 _**Notes**_
