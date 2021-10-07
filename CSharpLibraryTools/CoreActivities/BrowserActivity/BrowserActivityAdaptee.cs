@@ -13,44 +13,47 @@ namespace CoreActivities.BrowserActivity
         public BrowserActivityAdaptee(BrowserActivityEnumAdaptee browserActivityEnumAdaptee)
             => _browserActivityEnumAdaptee = browserActivityEnumAdaptee;
 
+        public string GetActiveTabTitle(BrowserType browserType)
+        {
+            try
+            {
+                // Find the automation element
+                var elm = GetAutomationElement(browserType);
+                if (elm != null)
+                    return elm.Current.Name;
+
+                return string.Empty;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         public string GetActiveTabUrl(BrowserType browserType)
         {
             try
             {
-                // There are always multiple chrome processes, so we have to loop through all of them to find the
-                // process with a Window Handle and an automation element of name "Address and search bar"
-                var browserProcess = GetBrowserProcessByBrowserType(browserType);
-
-                if (browserProcess.Count > 0)
+                // Find the automation element
+                var elm = GetAutomationElement(browserType);
+                if(elm != null)
                 {
-                    var url = string.Empty;
-                    foreach (var chrome in browserProcess)
+                    var elmUrlBar = elm.FindFirst(TreeScope.Descendants,
+                    new PropertyCondition(AutomationElement.NameProperty, "Address and search bar"));
+
+                    // If it can be found, get the value from the URL bar
+                    if (elmUrlBar != null)
                     {
-                        // The browser process must have a window
-                        if (chrome.Process.MainWindowHandle == IntPtr.Zero)
-                            continue;
-
-                        // Find the automation element
-                        var elm = AutomationElement.FromHandle(chrome.Process.MainWindowHandle);
-                        var elmUrlBar = elm.FindFirst(TreeScope.Descendants,
-                            new PropertyCondition(AutomationElement.NameProperty, "Address and search bar"));
-
-                        // If it can be found, get the value from the URL bar
-                        if (elmUrlBar != null)
+                        var patterns = elmUrlBar.GetSupportedPatterns();
+                        if (patterns.Length > 0)
                         {
-                            var patterns = elmUrlBar.GetSupportedPatterns();
-                            if (patterns.Length > 0)
-                            {
-                                var val = (ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0]);
-                                url = val.Current.Value;
-                            }
+                            var val = (ValuePattern)elmUrlBar.GetCurrentPattern(patterns[0]);
+                            return val.Current.Value;
                         }
                     }
-
-                    return url;
                 }
-                else
-                    return string.Empty;
+
+                return string.Empty;
             }
             catch (Exception ex)
             {
@@ -110,6 +113,38 @@ namespace CoreActivities.BrowserActivity
               .GroupBy(x => x.MainWindowTitle)
               .Select(x => x.First())
               .ToList();
+        }
+
+        private AutomationElement GetAutomationElement(BrowserType browserType)
+        {
+            try
+            {
+                // There are always multiple chrome processes, so we have to loop through all of them to find the
+                // process with a Window Handle and an automation element of name "Address and search bar"
+                var browserProcess = GetBrowserProcessByBrowserType(browserType);
+
+                if (browserProcess.Count > 0)
+                {
+                    AutomationElement url = null;
+                    foreach (var chrome in browserProcess)
+                    {
+                        // The browser process must have a window
+                        if (chrome.Process.MainWindowHandle == IntPtr.Zero)
+                            continue;
+
+                        // Find the automation element
+                        return AutomationElement.FromHandle(chrome.Process.MainWindowHandle);
+                    }
+
+                    return url;
+                }
+                else
+                    return null;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 
