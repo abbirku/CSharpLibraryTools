@@ -71,7 +71,7 @@ namespace CoreActivities.BrowserActivity
                 var processes = GetBrowserProcessByBrowserType(browserType);
 
                 if (processes.Count <= 0)
-                    throw new Exception($"No process found with this {browserName} name");
+                    return new List<string>();
                 else
                 {
                     foreach (var proc in processes)

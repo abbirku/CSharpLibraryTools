@@ -42,7 +42,7 @@ namespace CSharpLibraryTools
                     var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
                     Console.WriteLine($"Active URL: {activeUrl}\n");
 
-                    var activeTitle = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
+                    var activeTitle = _browserActivity.EnlistActiveTabTitle(BrowserType.Chrome);
                     Console.WriteLine($"Active Tab Title: {activeTitle}\n");
 
                     var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Chrome);
@@ -55,7 +55,7 @@ namespace CSharpLibraryTools
                     var activeUrl = _browserActivity.EnlistActiveTabUrl(BrowserType.Edge);
                     Console.WriteLine($"Active URL: {activeUrl}\n");
 
-                    var activeTitle = _browserActivity.EnlistActiveTabUrl(BrowserType.Chrome);
+                    var activeTitle = _browserActivity.EnlistActiveTabTitle(BrowserType.Chrome);
                     Console.WriteLine($"Active Tab Title: {activeTitle}\n");
 
                     var tabs = _browserActivity.EnlistAllOpenTabs(BrowserType.Edge);
